@@ -1,42 +1,59 @@
 import React, { Component } from "react";
-import DeleteBtn from "../components/DeleteBtn";
 import Jumbotron from "../components/Jumbotron";
 import API from "../utils/API";
-// import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../components/Grid";
-import { List, ListItem } from "../components/List";
+import SearchResults from "../components/SearchResults"
 import { Input, FormBtn } from "../components/Form";
 
 class Books extends Component {
   state = {
     search: "",
-    results: {}
+    books: [],
+    message: ""
   };
 
-  componentDidMount() {
-    this.searchBooks("Harry Potter");
-    console.log(this.state.results);
-  }
-
-  searchBooks = query => {
-    API.search(query)
-      .then(res => this.setState({ results: res.data }))
-      .catch(err => console.log(err));
-  };
 
   handleInputChange = event => {
-    const { name, value } = event.target;
     this.setState({
-      [name]: value
+      search: event.target.value
     });
   };
 
   handleFormSubmit = event => {
     event.preventDefault();
-    if (this.state.title) {
-      this.searchBooks().catch(err => console.log(err));
-    }
+
+    API.searchBooks(this.state.search)
+      .then(res => {
+        let results = res.data.items;
+
+        results = results.map(result => {
+          result = {
+            key: result.id,
+            id: result.id,
+            title: result.volumeInfo.title,
+            author: result.volumeInfo.authors,
+            description: result.volumeInfo.description,
+            image: result.volumeInfo.imageLinks.thumbnail,
+            link: result.volumeInfo.infoLink
+          };
+          return result;
+        });
+        this.setState({
+          books: results
+        });
+      })
+      .catch(err => console.log(err));
   };
+
+  handleSavedButton = event => {
+    event.preventDefault();
+    console.log(this.state.books)
+    let savedBooks = this.state.books.filter(book => book.id === event.target.id)
+    savedBooks = savedBooks[0];
+    API.saveBook(savedBooks)
+        .then(this.setState({ message: alert("Your book is saved") }))
+        .catch(err => console.log(err))
+}
 
   render() {
     return (
@@ -52,7 +69,7 @@ class Books extends Component {
                 placeholder="Search for a book by Title"
               />
               <FormBtn
-                disabled={!this.state.search}
+                // disabled={!this.state.search}
                 onClick={this.handleFormSubmit}
               >
                 Search Book
@@ -62,22 +79,12 @@ class Books extends Component {
         </Row>
         <Row>
           <Col size="md-6 sm-12">
-            {this.state.results.length ? (
-              <List>
-                {this.state.results.map(book => (
-                  <ListItem key={book._id}>
-                    {book.title}
-                    {book.author}
-                    {book.synopsis}
-                    {book.image}
-                    {book.link}
-                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
-                  </ListItem>
-                ))}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
+            <Container>
+              <SearchResults
+                books={this.state.books}
+                handleSavedButton={this.handleSavedButton}
+              />
+            </Container>
           </Col>
         </Row>
       </Container>
