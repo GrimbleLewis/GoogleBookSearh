@@ -24,7 +24,7 @@ class Books extends Component {
 
     API.searchBooks(this.state.search)
       .then(res => {
-        let results = res.data.items;
+        let results = res.data.items
 
         results = results.map(result => {
           result = {
@@ -35,15 +35,15 @@ class Books extends Component {
             description: result.volumeInfo.description,
             image: result.volumeInfo.imageLinks.thumbnail,
             link: result.volumeInfo.infoLink
-          };
+          }
           return result;
-        });
+        })
         this.setState({
           books: results
         });
       })
       .catch(err => console.log(err));
-  };
+  }
 
   handleSavedButton = event => {
     event.preventDefault();
@@ -70,7 +70,7 @@ class Books extends Component {
               />
               <FormBtn
                 // disabled={!this.state.search}
-                onClick={this.handleFormSubmit}
+               onClick={this.handleFormSubmit}
               >
                 Search Book
               </FormBtn>
