@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import "./style.css"
 import { Row, Col } from "../Grid";
 
 const SearchResults = props => {
@@ -27,8 +27,8 @@ const SearchResults = props => {
                   <Col size="2" className="bookImage">
                     <img src={book.image} alt={book.title} />
                   </Col>
-                  <Col size="1" className="emptyCol" />
-                  <Col size="9" className="bookInfo">
+                  <Col size="2" className="emptyCol" />
+                  <Col size="8" className="bookInfo">
                     <Row>
                       <h3 className="bookTitle">{book.title}</h3>
                     </Row>

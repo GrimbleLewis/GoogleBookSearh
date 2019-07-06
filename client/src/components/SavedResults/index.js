@@ -24,8 +24,8 @@ const SavedResults = props => {
                                     <Col size="2" className="bookImage">
                                         <img src={savedbook.image} alt={savedbook.title} />
                                     </Col>
-                                    <Col size="1" className="emptyCol"/>
-                                    <Col size="9" className="bookInfo">
+                                    <Col size="2" className="emptyCol"/>
+                                    <Col size="8" className="bookInfo">
                                         <Row>
                                             <h2 className="bookTitle">{savedbook.title}</h2>
                                         </Row>
