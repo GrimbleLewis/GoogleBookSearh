@@ -24,7 +24,10 @@ class Books extends Component {
 
     API.searchBooks(this.state.search)
       .then(res => {
+        console.log(res)
         let results = res.data.items
+
+        console.log(results)
 
         results = results.map(result => {
           result = {

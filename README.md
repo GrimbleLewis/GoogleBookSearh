@@ -13,6 +13,10 @@ If any results are returned a list of books will appear with some data about eac
 You now how the option to save the book for later, sending it to our second page (Saved) or view the book,
 which takes you to the Google Play store where you can purchase the book.
 
+# Preview 
+
+![Google Book Search Preview](./client/public/images/booksearchpreview.png)
+
 # Demo
 
 https://shrouded-temple-11980.herokuapp.com/
